@@ -1,0 +1,17 @@
+<div id="search-component">
+    <h4><label for="search-box">Hero Search</label></h4>
+  
+    <!-- (input) is an event handler for as the user types into the searchbox -->
+    <!-- TODO: Why do we need the hashtag -->
+    <input #searchBox id="search-box" (input)="search(searchBox.value)" />
+  
+    <ul class="search-result">
+        <!-- The $ is a convention that indicates that the object is an observable -->
+        <!-- The async pipe is used to subscribe to the observable, we could have also done this in the component class -->
+      <li *ngFor="let hero of heroes$ | async" >
+        <a routerLink="/detail/{{hero.id}}">
+          {{hero.name}}
+        </a>
+      </li>
+    </ul>
+  </div>

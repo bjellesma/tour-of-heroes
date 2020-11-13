@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Hero} from '../models/hero'
-import {HEROES} from '../mock-heroes'
+import {HeroService} from '../services/hero.service'
+import { MessageService } from '../services/messages.service';
 
 @Component({
   selector: 'app-heroes',
@@ -9,17 +10,36 @@ import {HEROES} from '../mock-heroes'
 })
 export class HeroesComponent implements OnInit {
 
-  heroes = HEROES;
-  selectedHero: Hero;
-  selected = 3
+  heroes : Hero[];
 
-  constructor() { }
+
+  constructor(private heroService:HeroService, private messageService: MessageService) { }
 
   ngOnInit(): void {
+    this.getHeroes();
   }
 
-  onSelect(hero: Hero): void {
-    this.selectedHero = hero;
+  getHeroes(): void {
+    this.heroService.getHeroes().subscribe(heroes => {
+      this.heroes = heroes;
+    });
+  }
+
+  //add a new hero
+  add(name: string): void {
+    name = name.trim();
+    if (!name) { return; }
+    this.heroService.addHero({ name } as Hero)
+      .subscribe(hero => {
+        this.heroes.push(hero);
+      });
+  }
+
+  //delete a hero
+  //notice that we're not returning any data
+  delete(hero: Hero): void {
+    this.heroes = this.heroes.filter(h => h !== hero);
+    this.heroService.deleteHero(hero).subscribe();
   }
 
 }

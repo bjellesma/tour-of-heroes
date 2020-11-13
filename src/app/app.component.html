@@ -1,1 +1,8 @@
-<app-heroes></app-heroes>
+<h1>{{title}}</h1>
+<nav>
+    <a routerLink="/dashboard">Dashboard</a>
+    <a routerLink="/heroes">Heroes</a>
+</nav>
+<!-- router outlet will tell angular where to display the routed view -->
+<router-outlet></router-outlet>
+<app-messages></app-messages>
